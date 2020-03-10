@@ -353,7 +353,11 @@ export default class TokenField extends Component {
             .filter(s => s)
         : [string];
       if (values.length > 0) {
-        this.addValue(values);
+        if (values.length === 1) {
+          this.setInputValue(values[0]);
+        } else {
+          this.addValue(values);
+        }
       }
     }
   };
