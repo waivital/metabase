@@ -99,6 +99,16 @@ type State = {
   lastValue: string,
 };
 
+const filterOption = (option, filterString) => {
+  const lowerCaseFilterString = filterString.toLowerCase();
+  return option.some(
+    value =>
+      value != null &&
+      String(value)
+        .toLowerCase()
+        .includes(lowerCaseFilterString),
+  );
+}
 @AutoExpanding
 export class FieldValuesWidget extends Component {
   props: Props;
@@ -476,16 +486,7 @@ export class FieldValuesWidget extends Component {
               {this.renderOptions(props)}
             </div>
           )}
-          filterOption={(option, filterString) => {
-            const lowerCaseFilterString = filterString.toLowerCase();
-            return option.some(
-              value =>
-                value != null &&
-                String(value)
-                  .toLowerCase()
-                  .includes(lowerCaseFilterString),
-            );
-          }}
+          filterOption={filterOption}
           onInputChange={this.onInputChange}
           parseFreeformValue={v => {
             // trim whitespace
