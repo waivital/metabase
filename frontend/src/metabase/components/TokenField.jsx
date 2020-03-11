@@ -187,10 +187,10 @@ export default class TokenField extends Component {
       const isSelected = selectedValues.has(
         JSON.stringify(this._value(option)),
       );
-      const isLastFreeform =
+      const isLastFreeform = () =>
         this._isLastFreeformValue(this._value(option)) &&
         this._isLastFreeformValue(searchValue);
-      const isMatching = filterOption(option, searchValue);
+      const isMatching = () => filterOption(option, searchValue);
       if (isSelected) {
         selectedCount++;
       }
@@ -201,9 +201,9 @@ export default class TokenField extends Component {
           // or it's not in the selectedValues
           !isSelected ||
           // or it's the current "freeform" value, which updates as we type
-          isLastFreeform) &&
+          isLastFreeform()) &&
         // and it's matching
-        isMatching
+        isMatching()
       );
     });
 
@@ -343,17 +343,23 @@ export default class TokenField extends Component {
   };
 
   onInputPaste = (e: SyntheticClipboardEvent) => {
-    if (this.props.parseFreeformValue) {
+    const {
+      onInputChange,
+      parseFreeformValue,
+    } = this.props;
+
+    if (parseFreeformValue) {
       e.preventDefault();
       const string = e.clipboardData.getData("Text");
       const values = this.props.multi
         ? string
             .split(/\n|,/g)
-            .map(this.props.parseFreeformValue)
+            .map(parseFreeformValue)
             .filter(s => s)
         : [string];
       if (values.length > 0) {
         if (values.length === 1) {
+          (onInputChange && onInputChange(values[0]));
           this.setInputValue(values[0]);
         } else {
           this.addValue(values);
