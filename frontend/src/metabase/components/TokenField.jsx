@@ -187,10 +187,10 @@ export default class TokenField extends Component {
       const isSelected = selectedValues.has(
         JSON.stringify(this._value(option)),
       );
-      const isLastFreeform =
+      const isLastFreeform = () =>
         this._isLastFreeformValue(this._value(option)) &&
         this._isLastFreeformValue(searchValue);
-      const isMatching = filterOption(option, searchValue);
+      const isMatching = () => filterOption(option, searchValue);
       if (isSelected) {
         selectedCount++;
       }
@@ -201,9 +201,9 @@ export default class TokenField extends Component {
           // or it's not in the selectedValues
           !isSelected ||
           // or it's the current "freeform" value, which updates as we type
-          isLastFreeform) &&
+          isLastFreeform()) &&
         // and it's matching
-        isMatching
+        isMatching()
       );
     });
 
