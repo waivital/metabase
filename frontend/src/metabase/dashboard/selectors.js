@@ -212,7 +212,9 @@ export const getParameters = createSelector(
       );
 
       // we change out widgets if a parameter is connected to non-field targets
-      const hasOnlyFieldTargets = mappings.every(x => x.field_id != null);
+      // const hasOnlyFieldTargets = mappings.every(x => x.field_id != null);
+      // use FieldValueWidget when mix field and non-field targets, this feature is quite useful
+      const hasOnlyFieldTargets = Boolean(mappings.find(x => x.field_id != null));
 
       // get the unique list of field IDs these mappings reference
       const fieldIds = _.chain(mappings)
