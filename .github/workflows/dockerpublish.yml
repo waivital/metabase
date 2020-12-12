@@ -3,11 +3,11 @@ name: Docker
 on:
   push:
     branches:
-      - release-0.35.x
+      - release-x.37.x
 
   pull_request:
     branches:
-      - release-0.35.x
+      - release-x.37.x
 
 env:
   IMAGE_NAME: metabase
